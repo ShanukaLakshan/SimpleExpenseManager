@@ -37,9 +37,7 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.exception.InvalidAccountExcep
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.ExpenseType;
 
 import static lk.ac.mrt.cse.dbs.simpleexpensemanager.Constants.EXPENSE_MANAGER;
-/**
- *
- */
+
 public class ManageExpensesFragment extends Fragment implements View.OnClickListener {
     private Button submitButton;
     private EditText amount;
@@ -105,17 +103,30 @@ public class ManageExpensesFragment extends Fragment implements View.OnClickList
                     try {
                         currentExpenseManager.updateAccountBalance(selectedAccount, day, month, year,
                                 ExpenseType.valueOf(type.toUpperCase()), amountStr);
+                        if(!amountStr.isEmpty()){
+                            new AlertDialog.Builder(this.getActivity())
+                                    .setTitle("Successfully")
+                                    .setMessage("Your transition saved")
+                                    .setPositiveButton(this.getString(R.string.msg_ok),
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.cancel();
+                                                }
+                                            }).setIcon(R.drawable.ic_baseline_done_all_24).show();
+                        }
+
                     } catch (InvalidAccountException e) {
                         new AlertDialog.Builder(this.getActivity())
                                 .setTitle(this.getString(R.string.msg_account_update_unable) + selectedAccount)
                                 .setMessage(e.getMessage())
-                                .setNeutralButton(this.getString(R.string.msg_ok),
+                                .setNegativeButton(this.getString(R.string.msg_ok),
                                         new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.cancel();
                                     }
-                                }).setIcon(android.R.drawable.ic_dialog_alert).show();
+                                }).setIcon(R.drawable.ic_baseline_report_gmailerrorred_24).show();
                     }
                 }
                 amount.getText().clear();

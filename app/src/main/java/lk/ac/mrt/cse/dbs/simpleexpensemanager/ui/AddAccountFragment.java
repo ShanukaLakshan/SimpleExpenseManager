@@ -16,8 +16,10 @@
 
 package lk.ac.mrt.cse.dbs.simpleexpensemanager.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +30,7 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.R;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.ExpenseManager;
 
 import static lk.ac.mrt.cse.dbs.simpleexpensemanager.Constants.EXPENSE_MANAGER;
-/**
- *
- */
+
 public class AddAccountFragment extends Fragment implements View.OnClickListener {
     private ExpenseManager currentExpenseManager;
     private EditText accountNumber;
@@ -98,6 +98,16 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
                     currentExpenseManager.addAccount(accountNumStr, bankNameStr, accountHolderStr,
                             Double.parseDouble(initialBalanceStr));
                 }
+                new AlertDialog.Builder(this.getActivity())
+                        .setTitle("Successfully")
+                        .setMessage("New Account saved")
+                        .setPositiveButton(this.getString(R.string.msg_ok),
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                }).setIcon(R.drawable.ic_baseline_done_all_24).show();
                 cleanUp();
                 break;
         }

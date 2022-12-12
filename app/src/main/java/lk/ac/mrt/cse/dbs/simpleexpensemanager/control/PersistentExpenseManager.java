@@ -1,26 +1,33 @@
 package lk.ac.mrt.cse.dbs.simpleexpensemanager.control;
 
+import android.content.Context;
+
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.AccountDAO;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.TransactionDAO;
-import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.InMemoryAccountDAO;
-import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.InMemoryTransactionDAO;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.DatabaseAccountDAO;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.DatabaseTransactionDAO;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.Account;
 
-public class InMemoryDemoExpenseManager extends ExpenseManager {
+public class PersistentExpenseManager extends ExpenseManager{
 
-    public InMemoryDemoExpenseManager() {
+    private Context context;
+
+    public PersistentExpenseManager(Context context) {
+
+        this.context = context;
         setup();
+
     }
 
     @Override
     public void setup() {
         /*** Begin generating dummy data for In-Memory implementation ***/
 
-        TransactionDAO inMemoryTransactionDAO = new InMemoryTransactionDAO();
-        setTransactionsDAO(inMemoryTransactionDAO);
+        TransactionDAO transactionDAO = new DatabaseTransactionDAO(this.context);
+        setTransactionsDAO(transactionDAO);
 
-        AccountDAO inMemoryAccountDAO = new InMemoryAccountDAO();
-        setAccountsDAO(inMemoryAccountDAO);
+        AccountDAO accountDAO = new DatabaseAccountDAO(this.context);
+        setAccountsDAO(accountDAO);
 
         // dummy data
         Account dummyAcct1 = new Account("12345A", "Yoda Bank", "Anakin Skywalker", 10000.0);

@@ -17,13 +17,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 26
     //buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "lk.ac.mrt.cse.dbs.simpleexpensemanager"
         minSdkVersion 19
-        targetSdkVersion 33
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -37,9 +37,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:cardview-v7:26.1.0'
     testImplementation 'junit:junit:4.12'
-    //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    //noinspection GradleCompatible
     implementation 'com.android.support:design:26.1.0'
 }
